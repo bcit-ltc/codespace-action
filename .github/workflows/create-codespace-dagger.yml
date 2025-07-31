@@ -26,18 +26,17 @@ jobs:
           # setting tokens here so that it can be referenced below without exposing in dagger cloud logs
           # should be referenced as env://GITHUB_TOKEN in the Dagger module
           GITHUB_TOKEN: ${{ github.token }}
-          CODESPACES_PAT: ${{ secrets.CODESPACES_PAT }}
+          CODESPACE_TOKEN: ${{ secrets.CODESPACE_TOKEN }}
         with:
           module: github.com/BCIT-LTC/daggerverse/codespace-manager@40-codespace-manager-module
           call: >-
             run
             --source=.
             --github_token=env://GITHUB_TOKEN
-            --codespace_token=env://CODESPACES_PAT
+            --codespace_token=env://CODESPACE_TOKEN
             --username=${{ github.actor }}
             --app_name=${{ github.event.repository.name }}
             --branch=${{ github.ref_name }}
           cloud-token: ${{ secrets.DAGGER_CLOUD_TOKEN }}
           version: "latest"
 
-          
