@@ -37,6 +37,7 @@ jobs:
             --username=${{ github.actor }}
             --app_name=${{ github.event.repository.name }}
             --branch=${{ github.ref_name }}
+            --organization=${{ github.repository_owner }}
           cloud-token: ${{ secrets.DAGGER_CLOUD_TOKEN }}
           version: "latest"
 
