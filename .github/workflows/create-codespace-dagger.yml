@@ -1,4 +1,4 @@
-name: Run on Pull Request commit, opening or reopening
+name: Codespace Creation
 description: This workflow runs when a pull request is opened, reopened, or synchronized. It uses Dagger to create a codespace for the PR.
 
 on:
