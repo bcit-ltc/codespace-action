@@ -45,7 +45,7 @@ jobs:
         with:
           module: github.com/BCIT-LTC/daggerverse/codespace-manager@40-codespace-manager-module
           call: >-
-            create_codespace_pull_request
+            create-codespace-pull-request
             --source=.
             --token=env://CODESPACE_TOKEN
             --organization=${{ github.repository_owner }}
