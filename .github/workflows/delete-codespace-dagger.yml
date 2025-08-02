@@ -1,4 +1,5 @@
-name: Run on PR commit
+name: Run on PR Closing
+description: This workflow runs when a pull request is closed. It uses Dagger to delete the codespace associated with the PR.
 
 on:
   pull_request:
