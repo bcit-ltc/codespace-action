@@ -1,9 +1,8 @@
-name: Pipeline Manager
+name: Run on PR commit
 
 on:
-  push:
-    branches:
-      - "*"
+  pull_request:
+    types: [synchronize, opened, reopened]
 
 permissions:
   contents: write # to be able to publish a GitHub release
@@ -11,34 +10,48 @@ permissions:
   pull-requests: write # to be able to comment on released pull requests
   packages: write # Required for pushing images  
 
+  
 jobs:
-  codespace-manager:
-    name: Codespace Manager
+  find-pr-number:
+    name: Find PR Number
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
-      # - name: Print all ENVS
-      #   run: printenv
-      - name: Run Dagger for codespace management
-        uses: dagger/dagger-for-github@8.0.0
-        env:
-          # setting tokens here so that it can be referenced below without exposing in dagger cloud logs
-          # should be referenced as env://GITHUB_TOKEN in the Dagger module
-          GITHUB_TOKEN: ${{ github.token }}
-          CODESPACE_TOKEN: ${{ secrets.CODESPACE_TOKEN }}
-        with:
-          module: github.com/BCIT-LTC/daggerverse/codespace-manager@40-codespace-manager-module
-          call: >-
-            run
-            --source=.
-            --github_token=env://GITHUB_TOKEN
-            --codespace_token=env://CODESPACE_TOKEN
-            --username=${{ github.actor }}
-            --app_name=${{ github.event.repository.name }}
-            --branch=${{ github.ref_name }}
-            --organization=${{ github.repository_owner }}
-          cloud-token: ${{ secrets.DAGGER_CLOUD_TOKEN }}
-          version: "latest"
+
+      - name: Get PR number
+        run: echo "PR Number is ${{ github.event.pull_request.number }}"
+
+
+
+# jobs:
+#   codespace-manager:
+#     name: Codespace Manager
+#     runs-on: ubuntu-latest
+#     steps:
+#       - name: Checkout code
+#         uses: actions/checkout@v4
+#       # - name: Print all ENVS
+#       #   run: printenv
+#       - name: Run Dagger for codespace management
+#         uses: dagger/dagger-for-github@8.0.0
+#         env:
+#           # setting tokens here so that it can be referenced below without exposing in dagger cloud logs
+#           # should be referenced as env://GITHUB_TOKEN in the Dagger module
+#           GITHUB_TOKEN: ${{ github.token }}
+#           CODESPACE_TOKEN: ${{ secrets.CODESPACE_TOKEN }}
+#         with:
+#           module: github.com/BCIT-LTC/daggerverse/codespace-manager@40-codespace-manager-module
+#           call: >-
+#             run
+#             --source=.
+#             --github_token=env://GITHUB_TOKEN
+#             --codespace_token=env://CODESPACE_TOKEN
+#             --username=${{ github.actor }}
+#             --app_name=${{ github.event.repository.name }}
+#             --branch=${{ github.ref_name }}
+#             --organization=${{ github.repository_owner }}
+#           cloud-token: ${{ secrets.DAGGER_CLOUD_TOKEN }}
+#           version: "latest"
 
 
