@@ -41,7 +41,7 @@ jobs:
         with:
           module: github.com/BCIT-LTC/daggerverse/codespace-manager@40-codespace-manager-module
           call: >-
-            delete-codespace-on-pr-close
+            delete-codespace-by-pull-request
             --source=.
             --token=env://CODESPACE_TOKEN
             --organization=${{ github.repository_owner }}
