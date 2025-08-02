@@ -50,7 +50,7 @@ jobs:
             --token=env://CODESPACE_TOKEN
             --organization=${{ github.repository_owner }}
             --repo_name=${{ github.event.repository.name }}
-            --branch=${{ github.ref_name }}
+            --branch_name=${{ github.ref_name }}
             --pull_request_number=${{ github.event.pull_request.number }}
           cloud-token: ${{ secrets.DAGGER_CLOUD_TOKEN }}
           version: "latest"
