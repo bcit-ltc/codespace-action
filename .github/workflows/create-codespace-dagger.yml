@@ -29,32 +29,32 @@ jobs:
         run: echo "Branch Name is ${{ github.event.pull_request.head.ref }}"
       
 
-  # codespace-manager:
-  #   name: Codespace Manager
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #     - name: Checkout code
-  #       uses: actions/checkout@v4
-  #     # - name: Print all ENVS
-  #     #   run: printenv
-  #     - name: Run Dagger for codespace management
-  #       uses: dagger/dagger-for-github@8.0.0
-  #       env:
-  #         # setting tokens here so that it can be referenced below without exposing in dagger cloud logs
-  #         # should be referenced as env://GITHUB_TOKEN in the Dagger module
-  #         GITHUB_TOKEN: ${{ github.token }}
-  #         CODESPACE_TOKEN: ${{ secrets.CODESPACE_TOKEN }}
-  #       with:
-  #         module: github.com/BCIT-LTC/daggerverse/codespace-manager@40-codespace-manager-module
-  #         call: >-
-  #           create-codespace-pull-request
-  #           --source=.
-  #           --token=env://CODESPACE_TOKEN
-  #           --organization=${{ github.repository_owner }}
-  #           --repo_name=${{ github.event.repository.name }}
-  #           --branch_name=${{ github.ref_name }}
-  #           --pull_request_number=${{ github.event.pull_request.number }}
-  #         cloud-token: ${{ secrets.DAGGER_CLOUD_TOKEN }}
-  #         version: "latest"
+  codespace-manager:
+    name: Codespace Manager
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      # - name: Print all ENVS
+      #   run: printenv
+      - name: Run Dagger for codespace management
+        uses: dagger/dagger-for-github@8.0.0
+        env:
+          # setting tokens here so that it can be referenced below without exposing in dagger cloud logs
+          # should be referenced as env://GITHUB_TOKEN in the Dagger module
+          GITHUB_TOKEN: ${{ github.token }}
+          CODESPACE_TOKEN: ${{ secrets.CODESPACE_TOKEN }}
+        with:
+          module: github.com/BCIT-LTC/daggerverse/codespace-manager@40-codespace-manager-module
+          call: >-
+            create-codespace-pull-request
+            --source=.
+            --token=env://CODESPACE_TOKEN
+            --organization=${{ github.repository_owner }}
+            --repo_name=${{ github.event.repository.name }}
+            --branch_name=${{ github.event.pull_request.head.ref }}
+            --pull_request_number=${{ github.event.pull_request.number }}
+          cloud-token: ${{ secrets.DAGGER_CLOUD_TOKEN }}
+          version: "latest"
 
 
